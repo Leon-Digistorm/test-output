@@ -2,6 +2,7 @@
     <div class="p-8 space-y-8">
         <Header />
         <Tasks :tasks="tasks"></Tasks>
+        <Completed></Completed>
         <Tasks :tasks="todos" />
 
         <div>
@@ -24,6 +25,7 @@
     import { computed } from 'vue'
 
     import { useStore } from 'vuex';
+import Completed from './Completed.vue';
 
     const store = useStore();
     const tasks = computed(() => store.getters.pendingTasks);

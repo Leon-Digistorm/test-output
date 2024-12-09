@@ -36,6 +36,9 @@
 
 <script setup>
     import { ref } from 'vue'
+    import { useStore } from 'vuex';
+
+    const store = useStore();
 
     import Button from '@/components/Button.vue'
     import Menu from '@/components/Menu.vue'
@@ -48,7 +51,7 @@
     const newTask = ref(props.task)
 
     const markComplete = () => {
-        newTask.value.complete = true
+        store.dispatch('toggleTask', props.task.id);
     }
 
 </script>
