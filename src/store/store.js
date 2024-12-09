@@ -23,14 +23,51 @@ export default createStore({
         ADD_TASK(state, task) {
             state.tasks.push(task);
         },
-        DELETE_TASK(state, taskId) {
-            state.tasks = state.tasks.filter(task => task.id !== taskId);
+        DELETE_TASK(state, taskId) { // GPT used commit 2746ec71b68fa8754a551dbad24d4135aaf138df
+            const deleteTaskRecursively = (tasks, taskId) => {
+                for (let i = 0; i < tasks.length; i++) {
+                    const task = tasks[i];
+    
+                    if (task.id === taskId) {
+                        tasks.splice(i, 1);  // Remove the task
+                        return true;
+                    }
+    
+                    if (task.subtasks.length > 0) {
+                        const found = deleteTaskRecursively(task.subtasks, taskId);
+                        if (found) return true;
+                    }
+                }
+                return false;
+            };
+    
+            const taskDeleted = deleteTaskRecursively(state.tasks, taskId);
+            if (!taskDeleted) {
+                console.log("Task not found for deletion", taskId);
+            }
         },
-        EDIT_TASK(state, { taskId, title }) {
-            const task = state.tasks.find(task => task.id === taskId);
-            if (task) task.title = title;
+        EDIT_TASK(state, { taskId, title }) { // GPT used commit 2746ec71b68fa8754a551dbad24d4135aaf138df
+            const editTaskRecursively = (tasks, taskId, title) => {
+                for (const task of tasks) {
+                    if (task.id === taskId) {
+                        task.title = title;
+                        return true;
+                    }
+    
+                    if (task.subtasks.length > 0) {
+                        const found = editTaskRecursively(task.subtasks, taskId, title);
+                        if (found) return true;
+                    }
+                }
+                return false;
+            };
+    
+            const taskEdited = editTaskRecursively(state.tasks, taskId, title);
+            if (!taskEdited) {
+                console.log("Task not found for editing", taskId);
+            }
         },
-        TOGGLE_TASK(state, taskId) { // GPT used commit 
+        TOGGLE_TASK(state, taskId) { // GPT used commit 2746ec71b68fa8754a551dbad24d4135aaf138df
             // Recursive function to toggle completion of the task
             const toggleTaskRecursively = (tasks, taskId) => {
                 for (const task of tasks) {
@@ -56,7 +93,7 @@ export default createStore({
                 console.log("Task not found for toggling", taskId);
             }
         },
-        ADD_SUBTASK(state, payload) { // GPT used commit 
+        ADD_SUBTASK(state, payload) { // GPT used commit 2746ec71b68fa8754a551dbad24d4135aaf138df
             // Recursive function to find the parent task and add the subtask
             const addSubtaskRecursively = (tasks, parentTaskId, subTask) => {
                 for (const task of tasks) {
