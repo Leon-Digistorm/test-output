@@ -4,7 +4,10 @@
             <h3 class="text-base/7 font-semibold text-gray-900">
                 My tasks
             </h3>
-            <button type="button" @click="addTask" class="bg-blue-600 text-white p-2 font-medium text-sm hover:bg-blue-700 transition rounded-md">Add Task</button>
+            <div class="flex gap-2">
+                <button type="button" @click="toggleCompleted" class="opacity-30 bg-gray-600 text-white p-2 font-medium text-sm hover:bg-gray-700 transition rounded-md">Toggle Completed</button>
+                <button type="button" @click="addTask" class="bg-blue-600 text-white p-2 font-medium text-sm hover:bg-blue-700 transition rounded-md">Add Task</button>
+            </div>
         </div>
 
         <ul role="list" class="divide-y divide-gray-200">
@@ -35,6 +38,10 @@
             store.dispatch('addTask', newTask);
         }
     };
+
+    const toggleCompleted = () => {
+        store.dispatch('toggleCompleted', null);
+    }
 
     const props = defineProps({
         tasks: Array,

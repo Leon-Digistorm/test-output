@@ -1,7 +1,7 @@
 <template>
     <div class="p-8 space-y-8">
         <Header />
-        <Tasks :tasks="tasks"></Tasks>
+        <Tasks :tasks="hideCompleted ? pendingTasks : allTasks"></Tasks>
         <Completed></Completed>
         <Tasks :tasks="todos" />
 
@@ -28,7 +28,9 @@
     import Completed from './Completed.vue';
 
     const store = useStore();
-    const tasks = computed(() => store.getters.pendingTasks);
+    const allTasks = computed(() => store.getters.allTasks);
+    const pendingTasks = computed(() => store.getters.pendingTasks);
+    const hideCompleted = computed(() => store.getters.hideCompleted);
 
     /**
      * Digistorm frontend test main tasks
@@ -66,7 +68,7 @@
         {
             id: 5,
             title: 'Allow users to add sub tasks',
-            completed: false,
+            completed: true,
         },
         {
             id: 6,

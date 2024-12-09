@@ -16,7 +16,8 @@ export default createStore({
             completed: false,
             subtasks: []
         }
-    ]
+    ],
+    hideCompleted: false
   },
     mutations: {
         ADD_TASK(state, task) {
@@ -47,6 +48,9 @@ export default createStore({
             if (task) {
                 task.subtasks.push(payload.subTask);
             }
+        },
+        TOGGLE_SHOW_COMPLETED(state) {
+            state.hideCompleted = !state.hideCompleted
         }
     },
     actions: {
@@ -64,11 +68,15 @@ export default createStore({
         },
         addSubtask({ commit }, payload) {
             commit('ADD_SUBTASK', payload);
+        },
+        toggleCompleted({commit}, payload) {
+            commit('TOGGLE_SHOW_COMPLETED',payload)
         }
     },
     getters: {
         allTasks: (state) => state.tasks,
         completedTasks: (state) => state.tasks.filter(task => task.completed),
-        pendingTasks: (state) => state.tasks.filter(task => !task.completed)
+        pendingTasks: (state) => state.tasks.filter(task => !task.completed),
+        hideCompleted: (state) => state.hideCompleted
     }
 });
