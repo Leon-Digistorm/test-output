@@ -33,10 +33,10 @@ export default createStore({
             const task = state.tasks.find(task => task.id === taskId);
             if (task) task.completed = !task.completed;
         },
-        ADD_SUBTASK(state, { taskId, subtask }) {
-            const task = state.tasks.find(task => task.id === taskId);
+        ADD_SUBTASK(state, payload) {
+            const task = state.tasks.find(task => task.id === payload.parentTask);
             if (task) {
-                task.subtasks.push(subtask);
+                task.subtasks.push(payload.subTask);
             }
         }
     },

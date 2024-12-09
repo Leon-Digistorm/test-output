@@ -17,7 +17,7 @@
             </span>
 
             <div class="relative flex-none">
-                <Menu>
+                <Menu v-if="!props.task.completed">
                     <template #trigger>
                         <Button>
                            <span class="sr-only">Open options</span>
@@ -27,6 +27,9 @@
                         </Button>
                     </template>
 
+                    <MenuItem @click="addSubTask">
+                        Add subtask
+                    </MenuItem>
                     <MenuItem @click="editTask">
                         Edit
                     </MenuItem>
@@ -40,7 +43,16 @@
                 </Menu>
             </div>
         </div>
+        
     </li>
+    <div v-if="task.subtasks && task.subtasks.length > 0" class="py-5 px-6">
+        <p>Subtasks</p>
+        <div>
+            <li v-for="subtask of task.subtasks">
+                {{ subtask.title }}
+            </li>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -59,7 +71,6 @@
 
     const task = ref(props.task)
     
-    const isCompleted = computed(()=>{props.task.completed})
     const markComplete = () => {
         store.dispatch('toggleTask', props.task.id);
     }
@@ -74,5 +85,18 @@
     const deleteTask = () => {
         store.dispatch('deleteTask', props.task.id);
     };
+
+    const addSubTask = () => {
+        const title = prompt('Enter new subtask title:');
+        if (title) {
+            const newTask = {
+                id: Date.now(),
+                title: title,
+                completed: false,
+                subtasks: []
+            };
+            store.dispatch('addSubtask', {parentTask: props.task.id, subTask: newTask});
+        }
+    }
 
 </script>
