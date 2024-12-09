@@ -7,13 +7,13 @@ export default createStore({
         {
             id: 1,
             title: 'Task 1',
-            complete: false,
+            completed: false,
             subtasks: []
         },
         {
             id: 2,
             title: 'Task 2',
-            complete: false,
+            completed: false,
             subtasks: []
         }
     ]

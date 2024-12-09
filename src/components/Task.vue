@@ -2,15 +2,18 @@
     <li class="flex items-center justify-between gap-x-6 py-5 px-6">
         <div class="min-w-0">
             <div class="flex items-start gap-x-3">
-                <p class="text-sm/6 font-medium text-gray-900">
-                    {{ newTask.title }}
+                <p class="text-sm/6 font-medium text-gray-900 flex gap-2 items-center">
+                    {{ props.task.title }}  
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" :class="['size-6', task.completed ? 'text-green-800' : 'text-gray-600 opacity-20 transition']">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                    </svg>
                 </p>
             </div>
         </div>
 
         <div class="flex flex-none items-center gap-x-4">
             <span data-cy="badge" class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
-                {{ newTask.complete ? 'complete' : 'incomplete' }}
+                {{ props.task.completed ? 'complete' : 'incomplete' }}
             </span>
 
             <div class="relative flex-none">
@@ -41,7 +44,7 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue'
+    import { computed, ref } from 'vue'
     import { useStore } from 'vuex';
 
     const store = useStore();
@@ -54,8 +57,9 @@
         task: Object,
     })
 
-    const newTask = ref(props.task)
-
+    const task = ref(props.task)
+    
+    const isCompleted = computed(()=>{props.task.completed})
     const markComplete = () => {
         store.dispatch('toggleTask', props.task.id);
     }
@@ -67,7 +71,7 @@
         }
     };
 
-    const deleteTask = (task) => {
+    const deleteTask = () => {
         store.dispatch('deleteTask', props.task.id);
     };
 

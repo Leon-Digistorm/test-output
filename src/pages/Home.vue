@@ -25,11 +25,10 @@
     import { computed } from 'vue'
 
     import { useStore } from 'vuex';
-import Completed from './Completed.vue';
+    import Completed from './Completed.vue';
 
     const store = useStore();
     const tasks = computed(() => store.getters.pendingTasks);
-    console.log(tasks.value);
 
     /**
      * Digistorm frontend test main tasks
@@ -47,32 +46,32 @@ import Completed from './Completed.vue';
         {
             id: 1,
             title: 'Allow the user to add a new task',
-            complete: true,
+            completed: true,
         },
         {
             id: 2,
             title: 'Allow users to delete a task',
-            complete: true,
+            completed: true,
         },
         {
             id: 3,
             title: 'Show the badge in a different color for completed tasks',
-            complete: false,
+            completed: true,
         },
         {
             id: 4,
             title: 'Allow users to edit the title of their task',
-            complete: true,
+            completed: true,
         },
         {
             id: 5,
             title: 'Allow users to add sub tasks',
-            complete: false,
+            completed: false,
         },
         {
             id: 6,
             title: 'Display completed tasks on a seperate page',
-            complete: false,
+            completed: false,
         },
     ]
 
