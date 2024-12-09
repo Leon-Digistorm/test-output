@@ -48,6 +48,15 @@ export default createStore({
             if (task) {
                 task.subtasks.push(payload.subTask);
             }
+            else { // subtask, would ideally use recursion to go infinite levels deep or even better pass additional subtask parent id as flattened, i.e. grandparent.parent.mySubtask
+                console.log("Checking ", state.tasks, payload)
+                for (const task of state.tasks) {
+                    
+                    if (task.subtasks.some((x)=>x.id == payload.parentTask)) {
+                        task.subtasks[task.subtasks.findIndex((x)=>x.id == payload.parentTask)].subtasks.push(payload.subTask);
+                    }
+                }
+            }
         },
         TOGGLE_SHOW_COMPLETED(state) {
             state.hideCompleted = !state.hideCompleted
