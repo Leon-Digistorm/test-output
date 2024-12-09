@@ -1,7 +1,7 @@
 <template>
     <div class="p-8 space-y-8">
         <Header />
-
+        <Tasks :tasks="tasks"></Tasks>
         <Tasks :tasks="todos" />
 
         <div>
@@ -21,6 +21,13 @@
 <script setup>
     import Header from '@/components/Header.vue'
     import Tasks from '@/components/Tasks.vue'
+    import { computed } from 'vue'
+
+    import { useStore } from 'vuex';
+
+    const store = useStore();
+    const tasks = computed(() => store.getters.pendingTasks);
+    console.log(tasks.value);
 
     /**
      * Digistorm frontend test main tasks
