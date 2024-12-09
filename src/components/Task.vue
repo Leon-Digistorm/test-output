@@ -24,6 +24,9 @@
                         </Button>
                     </template>
 
+                    <MenuItem @click="editTask">
+                        Edit
+                    </MenuItem>
                     <MenuItem @click="markComplete">
                         Mark as complete
                     </MenuItem>
@@ -53,5 +56,12 @@
     const markComplete = () => {
         store.dispatch('toggleTask', props.task.id);
     }
+
+    const editTask = () => {
+        const newTitle = prompt('Edit task title:', props.task.title);
+        if (newTitle) {
+            store.dispatch('editTask', { taskId: props.task.id, title: newTitle });
+        }
+    };
 
 </script>
