@@ -31,7 +31,16 @@ export default createStore({
         },
         TOGGLE_TASK(state, taskId) {
             const task = state.tasks.find(task => task.id === taskId);
-            if (task) task.completed = !task.completed;
+            if (task) {
+                task.completed = !task.completed
+            }
+            else { // subtask, would ideally use recursion to go infinite levels deep or even better pass additional subtask parent id as flattened, i.e. grandparent.parent.mySubtask
+                for (const task of state.tasks) {
+                    if (task.subtasks.some((x)=>x.id == taskId)) {
+                        task.subtasks[task.subtasks.findIndex((x)=>x.id == taskId)].completed = !task.subtasks[task.subtasks.findIndex((x)=>x.id == taskId)].completed
+                    }
+                }
+            }
         },
         ADD_SUBTASK(state, payload) {
             const task = state.tasks.find(task => task.id === payload.parentTask);
