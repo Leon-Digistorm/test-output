@@ -47,12 +47,12 @@ import Completed from './Completed.vue';
         {
             id: 1,
             title: 'Allow the user to add a new task',
-            complete: false,
+            complete: true,
         },
         {
             id: 2,
             title: 'Allow users to delete a task',
-            complete: false,
+            complete: true,
         },
         {
             id: 3,
@@ -62,7 +62,7 @@ import Completed from './Completed.vue';
         {
             id: 4,
             title: 'Allow users to edit the title of their task',
-            complete: false,
+            complete: true,
         },
         {
             id: 5,

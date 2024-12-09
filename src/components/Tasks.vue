@@ -4,6 +4,7 @@
             <h3 class="text-base/7 font-semibold text-gray-900">
                 My tasks
             </h3>
+            <button type="button" @click="addTask" class="bg-blue-600 text-white p-2 font-medium text-sm hover:bg-blue-700 transition rounded-md">Add Task</button>
         </div>
 
         <ul role="list" class="divide-y divide-gray-200">
@@ -17,8 +18,23 @@
 </template>
 
 <script setup>
-    import { computed } from 'vue'
+    import { useStore } from 'vuex';
+
+    const store = useStore();
     import Task from '@/components/Task.vue'
+
+    const addTask = () => {
+        const title = prompt('Enter new task title:');
+        if (title) {
+            const newTask = {
+                id: Date.now(),
+                title: title,
+                completed: false,
+                subtasks: []
+            };
+            store.dispatch('addTask', newTask);
+        }
+    };
 
     const props = defineProps({
         tasks: Array,

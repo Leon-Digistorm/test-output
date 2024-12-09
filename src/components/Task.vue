@@ -30,6 +30,9 @@
                     <MenuItem @click="markComplete">
                         Mark as complete
                     </MenuItem>
+                    <MenuItem @click="deleteTask">
+                        Delete
+                    </MenuItem>
 
                 </Menu>
             </div>
@@ -62,6 +65,10 @@
         if (newTitle) {
             store.dispatch('editTask', { taskId: props.task.id, title: newTitle });
         }
+    };
+
+    const deleteTask = (task) => {
+        store.dispatch('deleteTask', props.task.id);
     };
 
 </script>
