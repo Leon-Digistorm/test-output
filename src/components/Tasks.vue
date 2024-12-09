@@ -5,8 +5,9 @@
                 My tasks
             </h3>
             <div class="flex gap-2">
-                <button type="button" @click="toggleCompleted" class="opacity-30 bg-gray-600 text-white p-2 font-medium text-sm hover:bg-gray-700 transition rounded-md">Toggle Completed</button>
-                <button type="button" @click="addTask" class="bg-blue-600 text-white p-2 font-medium text-sm hover:bg-blue-700 transition rounded-md">Add Task</button>
+                <button type="button" @click="toggleCompleted" class="opacity-30 bg-gray-600 text-white p-2 font-medium text-sm hover:bg-gray-700 transition rounded-md">Toggle completed</button>
+                <router-link :to="{ path: '/completed'}"><button type="button" @click="toggleCompleted" class="bg-green-600 text-white p-2 font-medium text-sm hover:bg-green-700 transition rounded-md">See completed</button></router-link>
+                <button type="button" @click="addTask" class="bg-blue-600 text-white p-2 font-medium text-sm hover:bg-blue-700 transition rounded-md">Add task</button>
             </div>
         </div>
 

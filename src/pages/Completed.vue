@@ -5,6 +5,8 @@
             <h3 class="text-base/7 font-semibold text-gray-900">
                 Completed Tasks
             </h3>
+            <router-link :to="{ path: '/'}"><button type="button" @click="toggleCompleted" class="bg-red-600 text-white p-2 font-medium text-sm hover:bg-red-700 transition rounded-md">Take me back</button></router-link>
+
         </div>
 
         <ul role="list" class="divide-y divide-gray-200">

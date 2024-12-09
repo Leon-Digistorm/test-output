@@ -2,7 +2,6 @@
     <div class="p-8 space-y-8">
         <Header />
         <Tasks :tasks="hideCompleted ? pendingTasks : allTasks"></Tasks>
-        <Completed></Completed>
         <Tasks :tasks="todos" />
 
         <div>
@@ -25,7 +24,6 @@
     import { computed } from 'vue'
 
     import { useStore } from 'vuex';
-    import Completed from './Completed.vue';
 
     const store = useStore();
     const allTasks = computed(() => store.getters.allTasks);
@@ -73,7 +71,7 @@
         {
             id: 6,
             title: 'Display completed tasks on a seperate page',
-            completed: false,
+            completed: true,
         },
     ]
 
