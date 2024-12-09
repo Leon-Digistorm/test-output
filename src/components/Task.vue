@@ -48,9 +48,11 @@
     <div v-if="task.subtasks && task.subtasks.length > 0" class="py-5 px-6">
         <p>Subtasks</p>
         <div>
-            <li v-for="subtask of task.subtasks">
-                {{ subtask.title }}
-            </li>
+            <Task
+                v-for="subtask of task.subtasks"
+                :key="subtask.id"
+                :task="subtask"
+            />
         </div>
     </div>
 </template>
@@ -64,6 +66,7 @@
     import Button from '@/components/Button.vue'
     import Menu from '@/components/Menu.vue'
     import MenuItem from '@/components/MenuItem.vue'
+    import Task from '@/components/Task.vue'
 
     const props = defineProps({
         task: Object,
