@@ -30,32 +30,56 @@ export default createStore({
             const task = state.tasks.find(task => task.id === taskId);
             if (task) task.title = title;
         },
-        TOGGLE_TASK(state, taskId) {
-            const task = state.tasks.find(task => task.id === taskId);
-            if (task) {
-                task.completed = !task.completed
-            }
-            else { // subtask, would ideally use recursion to go infinite levels deep or even better pass additional subtask parent id as flattened, i.e. grandparent.parent.mySubtask
-                for (const task of state.tasks) {
-                    if (task.subtasks.some((x)=>x.id == taskId)) {
-                        task.subtasks[task.subtasks.findIndex((x)=>x.id == taskId)].completed = !task.subtasks[task.subtasks.findIndex((x)=>x.id == taskId)].completed
+        TOGGLE_TASK(state, taskId) { // GPT used commit 
+            // Recursive function to toggle completion of the task
+            const toggleTaskRecursively = (tasks, taskId) => {
+                for (const task of tasks) {
+                    // Check if the current task is the one to toggle
+                    if (task.id === taskId) {
+                        task.completed = !task.completed;
+                        return true; // Stop recursion if task is found and toggled
+                    }
+        
+                    // If the current task has subtasks, recurse into them
+                    if (task.subtasks.length > 0) {
+                        const found = toggleTaskRecursively(task.subtasks, taskId);
+                        if (found) return true; // Stop recursion if task is found and toggled
                     }
                 }
+                return false; // Return false if task not found
+            };
+        
+            // Start the recursive search and toggle task completion
+            const taskToggled = toggleTaskRecursively(state.tasks, taskId);
+        
+            if (!taskToggled) {
+                console.log("Task not found for toggling", taskId);
             }
         },
-        ADD_SUBTASK(state, payload) {
-            const task = state.tasks.find(task => task.id === payload.parentTask);
-            if (task) {
-                task.subtasks.push(payload.subTask);
-            }
-            else { // subtask, would ideally use recursion to go infinite levels deep or even better pass additional subtask parent id as flattened, i.e. grandparent.parent.mySubtask
-                console.log("Checking ", state.tasks, payload)
-                for (const task of state.tasks) {
-                    
-                    if (task.subtasks.some((x)=>x.id == payload.parentTask)) {
-                        task.subtasks[task.subtasks.findIndex((x)=>x.id == payload.parentTask)].subtasks.push(payload.subTask);
+        ADD_SUBTASK(state, payload) { // GPT used commit 
+            // Recursive function to find the parent task and add the subtask
+            const addSubtaskRecursively = (tasks, parentTaskId, subTask) => {
+                for (const task of tasks) {
+                    // Check if the current task is the parent task
+                    if (task.id === parentTaskId) {
+                        task.subtasks.push(subTask);
+                        return true; // Subtask added, exit recursion
+                    }
+        
+                    // If the current task has subtasks, recurse into them
+                    if (task.subtasks.length > 0) {
+                        const found = addSubtaskRecursively(task.subtasks, parentTaskId, subTask);
+                        if (found) return true; // Stop recursion if found
                     }
                 }
+                return false; // Return false if the subtask was not added
+            };
+        
+            // Start the recursive search for the parent task
+            const taskAdded = addSubtaskRecursively(state.tasks, payload.parentTask, payload.subTask);
+        
+            if (!taskAdded) {
+                console.log("Parent task not found for subtask", payload);
             }
         },
         TOGGLE_SHOW_COMPLETED(state) {
